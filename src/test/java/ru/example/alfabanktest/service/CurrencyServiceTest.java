@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ru.example.alfabanktest.dto.CurrencyResponse;
 import ru.example.alfabanktest.feign.CurrencyClient;
-import ru.example.alfabanktest.feign.GifClient;
 
 @SpringBootTest
 @TestPropertySource("classpath:application-test.properties")
@@ -32,9 +31,7 @@ public class CurrencyServiceTest {
 	private String base;
 	@Value("${currency.api.daysBefore}")
 	private int daysBefore;
-
-	@MockBean
-	private GifClient gifClient;
+	
 	@MockBean
 	private CurrencyClient currencyClient;
 	
