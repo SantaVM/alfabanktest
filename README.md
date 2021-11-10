@@ -6,8 +6,7 @@
 Описание задания:
 
 Cервис, который обращается к сервису курсов валют, и отдает gif в ответ:
-если рубль за последние сутки вырос относительно указанной валюты, то отдаем рандомную отсюда https://giphy.com/search/rich  
-если упал - отсюда https://giphy.com/search/broke  
+если рубль за последние сутки вырос относительно указанной валюты, то отдаем случайную отсюда [https://giphy.com/search/rich](https://giphy.com/search/rich), если упал - отсюда [https://giphy.com/search/broke](https://giphy.com/search/broke).  
 Ссылки:
 REST API курсов валют - https://docs.openexchangerates.org/  
 REST API гифок - https://developers.giphy.com/docs/api#quick-start-guide  
@@ -29,23 +28,45 @@ Must Have
 ./gradlew bootRun
 ```
 
-* С помощью Docker (предварительно создаем fat jar в папке ./build/libs c помощью задачи gradle bootJar)
+* С помощью Docker
+
 ```
 docker build -t alfabanktest .
 docker run -p 8080:8080 -t alfabanktest
 ```
-После запуска приложения переходим на http://localhost:8080/api/{code}, где {code} это трехбуквенный код валюты, курс которой по отношению к рублю мы проверяем. 
-По бесплатному тарифу openexchangerates базовая валюта для всех таблиц - только USD. 
+
+После запуска приложения переходим на HTTP endpoint `http://localhost:8080/api/{code}`, где `{code}` это трехбуквенный код валюты, курс которой по отношению к рублю RUB ( _контрольная_  валюта) мы проверяем. Код валюты не чувствителен к регистру символов, т.е. можно передавать как `EUR` так и `Eur`.  
+По бесплатному тарифу openexchangerates  _базовая_  валюта для всех таблиц - только USD.
 Поэтому вычисляем кросс-курс валюта/USD/RUB.
 
-После запроса получаем json-ответ вида:
+Контрольную валюту (RUB), базовую валюту (USD), количество дней назад для сравнения курсов, адреса внешних сервисов и пр. можно поменять в настройках (файл `application.properties`).
+
+После запроса получаем JSON-ответ вида:
+
 ```
-{"searchString":"rich","url":"https://giphy.com/gifs/Originals-rich-pay-me-count-money-l0HlIvLpzz624GAUM"}
+{
+	"searchString": "rich",
+	"url": "https://giphy.com/gifs/Originals-rich-pay-me-count-money-l0HlIvLpzz624GAUM"
+}
 ```
-где поле "searchString" принимает одно из двух указанных в задании значений: "rich" или "broke"
-а поле "url" содержит ссылку на найденную сервисом картинку.
+
+где поле `"searchString"` принимает одно из трех значений:  
+- `"rich"`, если рубль (контрольная валюта) стал дороже,
+- `"broke"`, если рубль (контрольная валюта) стал дешевле,
+- `"Rates unchanged!"`, если курсы не изменились;
+
+а поле `"url"` содержит:  
+- ссылку на найденную сервисом картинку, вида: `"https://giphy.com/gifs/Originals-rich-pay-me-count-money-l0HlIvLpzz624GAUM"`
+- либо строку `"Rates unchanged!"`, если курсы не изменились.
 
 Если курс за сутки не изменился, то ответ выглядит так:
+
 ```
 {"searchString":"Rates unchanged!","url":"Rates unchanged!"}
+```
+
+Если мы неверно указали код проверяемой валюты или код контрольной валюты (в настройках), то в ответ на запрос получим страницу с ошибкой вида:
+
+```
+There is no such currency: XXX or RUB
 ```
