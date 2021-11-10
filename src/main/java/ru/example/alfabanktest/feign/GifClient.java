@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.example.alfabanktest.dto.GifResponse;
 
 /**
- * Интерфейс, реализующий функционал библиотеки Feign для доступа к web  сервису gif-картинок.
- * URL web сервиса содержится в файле properties проекта.
+ * РРЅС‚РµСЂС„РµР№СЃ, СЂРµР°Р»РёР·СѓСЋС‰РёР№ С„СѓРЅРєС†РёРѕРЅР°Р» Р±РёР±Р»РёРѕС‚РµРєРё Feign РґР»СЏ РґРѕСЃС‚СѓРїР° Рє web  СЃРµСЂРІРёСЃСѓ gif-РєР°СЂС‚РёРЅРѕРє.
+ * URL web СЃРµСЂРІРёСЃР° СЃРѕРґРµСЂР¶РёС‚СЃСЏ РІ С„Р°Р№Р»Рµ properties РїСЂРѕРµРєС‚Р°.
  * @author karta
  *
  */
@@ -16,10 +16,10 @@ import ru.example.alfabanktest.dto.GifResponse;
 public interface GifClient {
 	
 	/**
-	 * Метод для получения набора объектов-картинок (по умолчанию - 25 штук) с тегами, соответствующими определенной строке
-	 * @param id - ключ пользователя web сервиса gif-картинок
-	 * @param searchString - строка для поиска соответствия
-	 * @return - объект типа {@link GifResponse}
+	 * РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РЅР°Р±РѕСЂР° РѕР±СЉРµРєС‚РѕРІ-РєР°СЂС‚РёРЅРѕРє (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ - 25 С€С‚СѓРє) СЃ С‚РµРіР°РјРё, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРјРё РѕРїСЂРµРґРµР»РµРЅРЅРѕР№ СЃС‚СЂРѕРєРµ
+	 * @param id - РєР»СЋС‡ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ web СЃРµСЂРІРёСЃР° gif-РєР°СЂС‚РёРЅРѕРє
+	 * @param searchString - СЃС‚СЂРѕРєР° РґР»СЏ РїРѕРёСЃРєР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ
+	 * @return - РѕР±СЉРµРєС‚ С‚РёРїР° {@link GifResponse}
 	 */
 	@GetMapping()
 	GifResponse getGif(@RequestParam("api_key") String id, @RequestParam("q") String searchString);
